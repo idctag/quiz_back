@@ -35,7 +35,6 @@ CREATE TABLE "answers" (
   "id" BIGSERIAL PRIMARY KEY,
   "question_id" BIGINT NOT NULL,
   "text" TEXT NOT NULL,
-  "is_correct" BOOLEAN NOT NULL DEFAULT false,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 

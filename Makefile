@@ -13,5 +13,8 @@ migrateup:
 migratedown:
 	migrate -path migrations -database "postgresql://root:secret@0.0.0.0:5432/quiz?sslmode=disable" -verbose down
 
+sqlc:
+	sqlc generate
 
-.PHONY: postgres createdb dropdb migrateup migratedown
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc
