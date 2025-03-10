@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/idctag/quiz_back/util"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx"
 	"github.com/stretchr/testify/require"
 )
 

@@ -13,15 +13,15 @@ import (
 var testQueries *Queries
 
 func TestMain(m *testing.M) {
-	config, err := util.LoadConfig("../../")
+	config, err := util.LoadConfig("../../../")
 	if err != nil {
-		log.Fatal("Cannot load conf")
+		log.Fatalf("Cannot load conf: %v", err)
 	}
 
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, config.DBSource)
 	if err != nil {
-		log.Fatal("cannot connect to db", err)
+		log.Fatalf("Cannot connect to DB: %v", err)
 	}
 
 	defer conn.Close(ctx)
