@@ -6,14 +6,20 @@ import (
 	"os"
 	"testing"
 
+	"github.com/idctag/quiz_back/util"
 	"github.com/jackc/pgx/v5"
 )
 
 var testQueries *Queries
 
 func TestMain(m *testing.M) {
+	config, err := util.LoadConfig("../../")
+	if err != nil {
+		log.Fatal("Cannot load conf")
+	}
+
 	ctx := context.Background()
-	conn, err := pgx.Connect(ctx, "postgresql://root:secret@localhost:5432/quiz?sslmode=disable")
+	conn, err := pgx.Connect(ctx, config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db", err)
 	}
