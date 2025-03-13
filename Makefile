@@ -8,10 +8,10 @@ dropdb:
 	docker exec -it quiz_postgres dropdb quiz
 
 migrateup:
-	migrate -path internal/db/migrations -database "postgresql://root:secret@localhost:5432/quiz?sslmode=disable" -verbose up
+	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/quiz?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path internal/db/migrations -database "postgresql://root:secret@localhost:5432/quiz?sslmode=disable" -verbose down
+	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/quiz?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate

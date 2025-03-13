@@ -1,4 +1,4 @@
-package db
+package sqlc
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func createRandomQuiz(t *testing.T) Quiz {
+func CreateRandomQuiz(t *testing.T) Quiz {
 	name := util.RandomName()
 
 	quiz, err := testQueries.CreateQuiz(context.Background(), name)
@@ -26,11 +26,11 @@ func createRandomQuiz(t *testing.T) Quiz {
 }
 
 func TestCreateQuiz(t *testing.T) {
-	createRandomQuiz(t)
+	CreateRandomQuiz(t)
 }
 
 func TestGetQuiz(t *testing.T) {
-	quiz1 := createRandomQuiz(t)
+	quiz1 := CreateRandomQuiz(t)
 	quiz2, err := testQueries.GetQuiz(context.Background(), quiz1.ID)
 
 	require.NoError(t, err)
@@ -42,7 +42,7 @@ func TestGetQuiz(t *testing.T) {
 }
 
 func TestUpdateQuiz(t *testing.T) {
-	quiz1 := createRandomQuiz(t)
+	quiz1 := CreateRandomQuiz(t)
 
 	arg := UpdateQuizParams{
 		ID:   quiz1.ID,
@@ -60,7 +60,7 @@ func TestUpdateQuiz(t *testing.T) {
 }
 
 func TestDeleteQuiz(t *testing.T) {
-	quiz1 := createRandomQuiz(t)
+	quiz1 := CreateRandomQuiz(t)
 	err := testQueries.DeleteQuiz(context.Background(), quiz1.ID)
 	require.NoError(t, err)
 
@@ -72,7 +72,7 @@ func TestDeleteQuiz(t *testing.T) {
 
 func TestListQuic(t *testing.T) {
 	for range 10 {
-		createRandomQuiz(t)
+		CreateRandomQuiz(t)
 	}
 
 	arg := ListQuizzesParams{

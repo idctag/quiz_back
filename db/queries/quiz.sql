@@ -4,7 +4,7 @@ WHERE id = $1 LIMIT 1;
 
 -- name: ListQuizzes :many
 SELECT * FROM quizzes
-ORDER BY created_at DESC
+ORDER BY created_at ASC
 LIMIT $1 OFFSET $2;
 
 -- name: CreateQuiz :one

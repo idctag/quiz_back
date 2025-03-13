@@ -3,7 +3,7 @@
 //   sqlc v1.28.0
 // source: quiz.sql
 
-package db
+package sqlc
 
 import (
 	"context"
@@ -49,7 +49,7 @@ func (q *Queries) GetQuiz(ctx context.Context, id int64) (Quiz, error) {
 
 const listQuizzes = `-- name: ListQuizzes :many
 SELECT id, name, created_at FROM quizzes
-ORDER BY created_at DESC
+ORDER BY created_at ASC
 LIMIT $1 OFFSET $2
 `
 

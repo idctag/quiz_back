@@ -1,3 +1,4 @@
+-- check if exist,  
 CREATE TYPE question_types AS ENUM ('img', 'audio' );
 
 CREATE TABLE "quizzes" (
