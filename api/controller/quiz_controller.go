@@ -10,7 +10,10 @@ import (
 	sqlc "github.com/idctag/quiz_back/db/models"
 )
 
-var timeOut = 5 * time.Second
+var (
+	timeOut = 5 * time.Second
+	ctx     = context.Background()
+)
 
 func GetQuizzes(c fiber.Ctx) error {
 	ctx, cancle := context.WithTimeout(context.Background(), timeOut)
@@ -45,4 +48,8 @@ func GetQuizzes(c fiber.Ctx) error {
 	}
 
 	return c.JSON(quizzes)
+}
+
+func CreateQuiz(c fiber.Ctx) error {
+	return c.JSON("Hello create quiz endpoint")
 }

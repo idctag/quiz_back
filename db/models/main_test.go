@@ -10,15 +10,17 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-var testQueries *Queries
+var (
+	testQueries *Queries
+	ctx         = context.Background()
+)
 
 func TestMain(m *testing.M) {
-	config, err := util.LoadConfig("../../../")
+	config, err := util.LoadConfig("../../")
 	if err != nil {
 		log.Fatalf("Cannot load conf: %v", err)
 	}
 
-	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, config.DBSource)
 	if err != nil {
 		log.Fatalf("Cannot connect to DB: %v", err)

@@ -3,7 +3,7 @@ CREATE TYPE question_types AS ENUM ('img', 'audio' );
 
 CREATE TABLE "quizzes" (
   "id" BIGSERIAL PRIMARY KEY,
-  "name" TEXT NOT NULL,
+  "name" VARCHAR NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
@@ -17,10 +17,10 @@ CREATE TABLE "phases" (
 CREATE TABLE "questions" (
   "id" BIGSERIAL PRIMARY KEY,
   "phase_id" BIGINT NOT NULL,
-  "text" TEXT NOT NULL,
+  "text" VARCHAR NOT NULL,
   "types" question_types NOT NULL,
-  "img_url" TEXT,
-  "audio_url" TEXT,
+  "img_url" VARCHAR,
+  "audio_url" VARCHAR,
   "is_multiple_choice" BOOLEAN NOT NULL DEFAULT false,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
@@ -28,14 +28,14 @@ CREATE TABLE "questions" (
 CREATE TABLE "choices" (
   "id" BIGSERIAL PRIMARY KEY,
   "question_id" BIGINT NOT NULL,
-  "text" TEXT NOT NULL,
+  "text" VARCHAR NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "answers" (
   "id" BIGSERIAL PRIMARY KEY,
   "question_id" BIGINT NOT NULL,
-  "text" TEXT NOT NULL,
+  "text" VARCHAR NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT (now())
 );
 

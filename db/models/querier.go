@@ -21,6 +21,7 @@ type Querier interface {
 	DeleteQuiz(ctx context.Context, id int64) error
 	GetAnswer(ctx context.Context, id int64) (Answer, error)
 	GetAnswerByQuestion(ctx context.Context, questionID int64) (Answer, error)
+	GetFullQuiz(ctx context.Context, id int64) (GetFullQuizRow, error)
 	GetPhase(ctx context.Context, id int64) (Phase, error)
 	GetQuestion(ctx context.Context, id int64) (Question, error)
 	GetQuiz(ctx context.Context, id int64) (Quiz, error)

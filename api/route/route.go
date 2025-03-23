@@ -6,7 +6,9 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
-	api := app.Group("/api/v1")
+	api := app.Group("/api")
 	// Quiz
-	api.Get("/quiz", controller.GetQuizzes)
+	quiz := api.Group("/quiz")
+	quiz.Get("/", controller.GetQuizzes)
+	quiz.Post("/", controller.CreateQuiz)
 }
