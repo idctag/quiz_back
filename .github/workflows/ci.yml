@@ -46,3 +46,10 @@ jobs:
 
       - name: Test
         run: make test
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
