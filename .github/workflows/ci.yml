@@ -1,4 +1,4 @@
-name: ci-test
+name: ci-cd
 
 on:
   push:
@@ -8,18 +8,14 @@ on:
 
 jobs:
   test:
-    name: test
     runs-on: ubuntu-latest
     services:
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: secret
           POSTGRES_USER: root
           POSTGRES_DB: quiz
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -27,29 +23,31 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+    env:
+      DATABASE_URL: postgresql://root:secret@localhost:5432/quiz?sslmode=disable
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - uses: actions/setup-go@v4
         with:
           go-version: "1.24"
-
-      - name: Install golang migrate
-        run: |
+      - run: |
           curl -L https://github.com/golang-migrate/migrate/releases/download/v4.18.2/migrate.linux-amd64.tar.gz | tar xvz
-          sudo mv migrate LICENSE README.md /usr/bin/
-          which migrate
+          sudo mv migrate /usr/bin/
+      - run: make migrateup
+      - run: make test
 
-      - name: Run migrations
-        run: make migrateup
-
-      - name: Test
-        run: make test
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+  # build-and-push:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: docker/login-action@v3
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+  #     - uses: docker/build-push-action@v6
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ghcr.io/${{ github.repository }}:latest

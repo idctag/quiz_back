@@ -7,8 +7,6 @@ package sqlc
 
 import (
 	"context"
-
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createQuiz = `-- name: CreateQuiz :one
@@ -35,60 +33,6 @@ WHERE id = $1
 func (q *Queries) DeleteQuiz(ctx context.Context, id int64) error {
 	_, err := q.db.Exec(ctx, deleteQuiz, id)
 	return err
-}
-
-const getFullQuiz = `-- name: GetFullQuiz :one
-SELECT 
-  q.id AS quiz_id,
-  q.name AS quiz_name,
-  p.id AS phase_id,
-  p.name AS phase_name,
-  qs.id AS phase_name,
-  qs.text AS question_text,
-  qs.types AS question_type,
-  a.id AS answer_id,
-  a.text AS answer_text,
-  c.id AS choice_id,
-  c.text AS choice_text
-FROM quizzes q 
-LEFT JOIN phases p ON q.id = p.quiz_id
-LEFT JOIN questions qs ON p.id = qs.phase_id
-LEFT JOIN answers a ON qs.id = a.question_id
-LEFT JOIN choices c ON qs.id = c.question_id
-WHERE q.id = $1
-`
-
-type GetFullQuizRow struct {
-	QuizID       int64             `json:"quiz_id"`
-	QuizName     string            `json:"quiz_name"`
-	PhaseID      pgtype.Int8       `json:"phase_id"`
-	PhaseName    pgtype.Text       `json:"phase_name"`
-	PhaseName_2  pgtype.Int8       `json:"phase_name_2"`
-	QuestionText pgtype.Text       `json:"question_text"`
-	QuestionType NullQuestionTypes `json:"question_type"`
-	AnswerID     pgtype.Int8       `json:"answer_id"`
-	AnswerText   pgtype.Text       `json:"answer_text"`
-	ChoiceID     pgtype.Int8       `json:"choice_id"`
-	ChoiceText   pgtype.Text       `json:"choice_text"`
-}
-
-func (q *Queries) GetFullQuiz(ctx context.Context, id int64) (GetFullQuizRow, error) {
-	row := q.db.QueryRow(ctx, getFullQuiz, id)
-	var i GetFullQuizRow
-	err := row.Scan(
-		&i.QuizID,
-		&i.QuizName,
-		&i.PhaseID,
-		&i.PhaseName,
-		&i.PhaseName_2,
-		&i.QuestionText,
-		&i.QuestionType,
-		&i.AnswerID,
-		&i.AnswerText,
-		&i.ChoiceID,
-		&i.ChoiceText,
-	)
-	return i, err
 }
 
 const getQuiz = `-- name: GetQuiz :one

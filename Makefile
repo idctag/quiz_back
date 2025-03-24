@@ -1,3 +1,5 @@
+-include .env
+
 postgres:
 	docker run --name quiz_postgres -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:latest
 
@@ -8,10 +10,10 @@ dropdb:
 	docker exec -it quiz_postgres dropdb quiz
 
 migrateup:
-	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/quiz?sslmode=disable" -verbose up
+	migrate -path db/migrations -database "$(DATABASE_URL)" -verbose up
 
 migratedown:
-	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/quiz?sslmode=disable" -verbose down
+	migrate -path db/migrations -database "$(DATABASE_URL)" -verbose down
 
 sqlc:
 	sqlc generate
