@@ -174,7 +174,7 @@ func CreateQuiz(c fiber.Ctx) error {
 		})
 	}
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "Quiz created Successfully",
+		"message": "Quiz created Successfully!",
 		"id":      quiz.ID,
 	})
 }
